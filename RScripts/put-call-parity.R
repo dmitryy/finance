@@ -1,7 +1,7 @@
 s0 = 100
 n = 100
 
-rate = 0.05
+rate = 0
 drift = 0.2
 strike = 100
 timestep = 0.01
