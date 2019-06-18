@@ -1,7 +1,7 @@
 s0 = 100
 n = 100
 
-rate = 0.05
+rate = 0
 drift = 0.2
 strike = 100
 timestep = 0.01
@@ -44,12 +44,14 @@ DeltaPut <- function (d1) {
 }
 
 s = array(n)
-deltas = array(n)
-deltasPut = array(n)
-deltasSellCall = array(n)
-deltasSellPut = array(n)
 calls = array(n)
 puts = array(n)
+
+buyCallDeltas = array(n)
+buyPutDeltas = array(n)
+sellCallDeltas = array(n)
+sellPutDeltas = array(n)
+
 buyCall = array(n)
 buyPut = array(n)
 sellCall = array(n)
@@ -67,42 +69,40 @@ for (i in 1:n) {
   
   sd1 = d1(s[i], strike, rate, volatility, expiry, t[i])
   sd2 = d2(sd1, volatility, expiry, t[i])
+  
   calls[i] = C(s[i], sd1, sd2, strike, rate, expiry, t[i])
   puts[i] = P(s[i], sd1, sd2, strike, rate, expiry, t[i])
-  deltas[i] = DeltaCall(sd1)
-  deltasPut[i] = DeltaPut(sd1)
-  deltasSellCall[i] = DeltaCall(sd1)
-  deltasSellPut[i] = DeltaPut(sd1)
+  
+  buyCallDeltas[i] = DeltaCall(sd1)
+  buyPutDeltas[i] = DeltaPut(sd1)
+  sellCallDeltas[i] = DeltaCall(sd1)
+  sellPutDeltas[i] = DeltaPut(sd1)
   
   if (i == 1) {
-    buyCall[i] = 0 - (calls[i] - deltas[i] * s[i])
-    buyPut[i] = 0 - (puts[i] - deltasPut[i] * s[i])
-    sellCall[i] = calls[i] - deltasSellCall[i] * s[i]
-    sellPut[i] = puts[i] - deltasSellPut[i] * s[i]
+    buyCall[i] = 0 - (calls[i] - buyCallDeltas[i] * s[i])
+    buyPut[i] = 0 - (puts[i] - buyPutDeltas[i] * s[i])
+    sellCall[i] = calls[i] - sellCallDeltas[i] * s[i]
+    sellPut[i] = puts[i] - sellPutDeltas[i] * s[i]
   }
   else {
-    buyCall[i] = buyCall[i - 1] + (deltas[i] - deltas[i - 1]) * s[i]
-    buyPut[i] = buyPut[i - 1] + (deltasPut[i] - deltasPut[i - 1]) * s[i]
-    sellCall[i] = sellCall[i - 1] - (deltasSellCall[i] - deltasSellCall[i - 1]) * s[i]
-    sellPut[i] = sellPut[i - 1] - (deltasSellPut[i] - deltasSellPut[i - 1]) * s[i]
+    buyCall[i] = buyCall[i - 1] + (buyCallDeltas[i] - buyCallDeltas[i - 1]) * s[i]
+    buyPut[i] = buyPut[i - 1] + (buyPutDeltas[i] - buyPutDeltas[i - 1]) * s[i]
+    sellCall[i] = sellCall[i - 1] - (sellCallDeltas[i] - sellCallDeltas[i - 1]) * s[i]
+    sellPut[i] = sellPut[i - 1] - (sellPutDeltas[i] - sellPutDeltas[i - 1]) * s[i]
   }
 }
 
-totalCall = buyCall[n] + calls[n] - deltas[n] * s[n]
-totalPut = buyPut[n] + puts[n] - deltasPut[n] * s[n]
-totalSellCall = sellCall[n] - calls[n] + deltasSellCall[n] * s[n]
-totalSellPut = sellPut[n] - puts[n] + deltasSellPut[n] * s[n]
+totalCall = buyCall[n] + calls[n] - buyCallDeltas[n] * s[n]
+totalPut = buyPut[n] + puts[n] - buyPutDeltas[n] * s[n]
+totalSellCall = sellCall[n] - calls[n] + sellCallDeltas[n] * s[n]
+totalSellPut = sellPut[n] - puts[n] + sellPutDeltas[n] * s[n]
 
 xrange = range(t)
 yrange = range(0:max(s))
 
-#plot(xrange, yrange, type = "n")
-#points(t, s, col = "red3", type = "lines")
-#points(t, deltas, col = "forestgreen", type = "lines")
-
 par(mfrow=c(4,2))
 plot(s, type = "line", xlab = "", ylab = "Asset")
-plot(deltas, type = "lines", xlab = "", ylab = "Delta Call")
+plot(buyCallDeltas, type = "lines", xlab = "", ylab = "Delta Call")
 
 plot(calls, type="lines", xlab = "", ylab = "Call")
 plot(buyCall, type = "lines", xlab = "", ylab = "Buy Call Portfolio")
