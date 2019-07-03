@@ -8,12 +8,13 @@ strike = 100
 timestep = 0.01
 expiry = 1
 volStart = 0.7
-volEnd = 0.4
+volEnd = 0.3
 #vols = c(
 #  seq(volStart, volStart + (volEnd - volStart) / 2, by = (volEnd - volStart) / n),
 #  seq(volStart + (volEnd - volStart) / 2, volStart, by = (volStart - volEnd) / n))
 vols = seq(volStart, volEnd, by = (volEnd - volStart) / n)
 #vols = runif(n, volStart, volEnd)
+#vols = rep(0.3, n)
 
 # calculate stock price
 nextPrice <- function (s, volatility) {

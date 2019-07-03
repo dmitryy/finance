@@ -1,73 +1,95 @@
-asset = 100
 rate = 0
-error = 0.001
+error = 0.0001
 
-#asset: SiU9, expires in 78 days, close price: 64039
-asset = 64039
-strikes = c(62000,62500,63000,63500,64000,64250,64500,65000,65500,66000,66500,67000,68000,69000,70000,71000,72000,72500,73000,75000,80000)
-prices = c(2280,1900,1595,1355,1043,843,820,706,550,455,371,312,180,136,109,79,65,55,48,36,25)
-T = 1 / 252 * 78
+#########################################################################
+# Paste data from console app here
+#########################################################################
 
-#asset: SiU9, expires in 78 days, price: 63642
-asset = 63642
-strikes = c(62000,62500,63000,63500,64000,64250,64500,65000,65500,66000,66500,67000,68000,69000,70000,71000,72000,72500,73000,75000,80000)
-prices = c(2280,1825,1550,1169,892,823,850,625,544,433,361,264,180,135,95,73,52,55,46,33,25)
+# asset: RIU9, expires in 78 days, price: 137170, Trade date: 03.07.2019 0:00:00
+asset = 137170
+expiry = 1 / 252 * 78
+callStrikes = c(130000,132500,135000,137500,140000,142500,145000,147500,150000,155000,157500,160000,180000)
+callPrices = c(10000,8250,6690,5050,3750,2900,2200,1470,1000,400,240,190,20)
+putStrikes = c(80000,90000,95000,97500,100000,105000,107500,110000,115000,117500,120000,122500,125000,127500,130000,132500,135000,137500,140000)
+putPrices = c(40,60,150,120,130,200,270,330,570,750,980,1250,1610,2130,2720,3410,4320,5400,7250)
 
-#asset: SiU9, expires in 78 days, price: 64106
-asset = 64106
-strikes = c(62000,62500,63000,63500,64000,64250,64500,65000,65500,66000,66500,67000,68000,69000,70000,71000,72000,72500,73000,75000,80000)
-prices = c(2280,1900,1595,1355,1084,843,850,706,550,455,371,320,180,137,110,79,72,55,48,38,25)
+#########################################################################
 
-#prices = c(18.6, 14.8, 11.5, 8.9, 7)
-#strikes = c(90, 95, 100, 105, 110)
-#T = 1
+# BS d1
+d1 <- function (S, E, r, volatility, expiry) {
+  (log(S / E) + (r + 0.5 * volatility ^ 2) * (expiry)) / (volatility * sqrt(expiry))
+}
 
-IvCall <- function(C, K, T, S, r, error) {
-  vol = 0.2
+# BS d2
+d2 <- function (d1, volatility, expiry) {
+  d1 - volatility * sqrt(expiry)
+}
+
+# call
+C <- function (S, d1, d2, E, r, expiry) {
+  S * pnorm(d1) - E * exp(-r * (expiry)) * pnorm(d2)
+}
+
+# put
+P <- function (S, d1, d2, E, r, expiry) {
+  -S * pnorm(-d1) + E * exp(-r * (expiry)) * pnorm(-d2)
+}
+
+Vega <- function (S, d1, expiry) {
+  S * sqrt(expiry / pi / 2) * exp(-0.5 * d1 ^ 2)
+}
+
+# IV Call
+IvCall <- function (C, E, expiry, S, r, error) {
+  sigma = 1
   dv = error + 1
   while (abs(dv) > error) {
-    da = log(S/K) + (r + 0.5 * vol ^ 2) * T
-    da = da / (vol * sqrt(T))
-    dbee = da - vol * sqrt(T)
-    #priceerror = asset * cdf(da) - strike * Exp(-intrate * expiry) * cdf(dbee) - mktprice
-    priceerror = S * CDF(da) - K * exp(-r * T) * CDF(dbee) - C
-    #vega = asset * Sqr(expiry / 3.1415926 / 2) * Exp(-0.5 * da * da)
-    vega = S * sqrt(T / pi / 2) * exp(-0.5 * da * da)
-    if (vega == 0)
-    {
-      a = 1
-    }
-    #dv = priceerror / vega
-    dv = priceerror / vega
-    #Volatility = Volatility - dv
-    vol = vol - dv
+    d1 = d1(S, E, r, sigma, expiry)
+    d2 = d2(d1, sigma, expiry)
+    CallPrice = C(S, d1, d2, E, r, expiry)
+    Vega = Vega(S, d1, expiry)
+    PriceError = CallPrice - C
+    dv = PriceError / Vega
+    sigma = sigma - dv
   }
-  vol
+  sigma
 }
 
-CDF <- function(x) {
-  d = 1 / (1 + 0.2316419 * abs(x))
-  a1 = 0.31938153
-  a2 = -0.356563782
-  a3 = 1.781477937
-  a4 = -1.821255978
-  a5 = 1.330274429
-  
-  cdf = 1 - 1 / sqrt(2 * 3.1415926) * exp(-0.5 * x ^ 2) * (a1 * d + a2 * d ^ 2 + a3 * d ^ 3 + a4 * d ^ 4 + a5 * d ^ 5)
-  
-  if (x < 0) {
-    1 - cdf
+IvPut <- function (P, E, expiry, S, r, error) {
+  sigma = 1
+  dv = error + 1
+  while (abs(dv) > error) {
+    d1 = d1(S, E, r, sigma, expiry)
+    d2 = d2(d1, sigma, expiry)
+    PutPrice = P(S, d1, d2, E, r, expiry)
+    Vega = Vega(S, d1, expiry)
+    PriceError = PutPrice - P
+    dv = PriceError / Vega
+    sigma = sigma - dv
   }
-  else {
-    cdf
-  }
+  sigma
 }
 
-n = length(prices)
-iv = array(n)
+n1 = length(callStrikes)
+n2 = length(putStrikes)
 
-for (i in 1:n) {
-  iv[i] = IvCall(prices[i], strikes[i], T, asset, rate, error)
+ivCalls = array(n1)
+ivPuts = array(n2)
+
+for (i in 1:n1) {
+  ivCalls[i] = IvCall(callPrices[i], callStrikes[i], expiry, asset, rate, error)
 }
 
-plot(strikes, iv, type = "lines")
+for (i in 1:n2) {
+  ivPuts[i] = IvPut(putPrices[i], putStrikes[i], expiry, asset, rate, error)
+}
+
+xrange = range(putStrikes, callStrikes)
+yrange = range(ivPuts, ivCalls)
+
+plot(xrange, yrange, type = "n", xlab = "Strike", ylab = "Volatility")
+
+points(callStrikes, ivCalls, col = "red3", type = "o")
+points(putStrikes, ivPuts, col = "forestgreen", type = "o")
+
+abline(v=asset, col="blue")
