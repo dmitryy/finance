@@ -23,7 +23,7 @@ vYZ <- volatility(ohlc, calc = "yang.zhang")
 vYZ2 <- volatility(ohlc, calc = "yang.zhang", n = 30)
 
 #plot(xrange, yrange, type = "n", xlab = "Strike", ylab = "Volatility")
-par(mfrow=c(2,1))
+#par(mfrow=c(2,1))
 
 plot(vClose, type = "lines")
 #points(vGK, type = "lines", col = "yellow")
@@ -31,5 +31,6 @@ plot(vClose, type = "lines")
 #points(vRS, type = "lines", col = "orange")
 points(vYZ, type = "lines", col = "red")
 #points(vYZ2, type = "lines", col = "green")
-plot(Open, type = "lines")
+
+#plot(Open, type = "lines")
 #bbands <- BBands(ttrc[,c("High","Low","Close")])
