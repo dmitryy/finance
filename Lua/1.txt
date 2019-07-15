@@ -1,0 +1,308 @@
+
+option{
+-- Table: {1}
+{
+   ["isin_code"]="",
+   ["bsid"]="",
+   ["cusip_code"]="",
+   ["stock_code"]="",
+   ["couponvalue"]=0,
+   ["sell_leg_classcode"]="",
+   ["second_currcode"]="",
+   ["sell_leg_seccode"]="",
+   ["buy_leg_classcode"]="",
+   ["base_active_classcode"]="SPBFUT",
+   ["class_code"]="SPBOPT",
+   ["face_value"]=0,
+   ["buy_mat_date"]=0,
+   ["option_strike"]=63500,
+   ["name"]="Si-9.19M180719CA63500",
+   ["qty_multiplier"]=1,
+   ["step_price_currency"]="SUR",
+   ["sedol_code"]="",
+   ["mat_date"]=20190718,
+   ["cfi_code"]="",
+   ["face_unit"]="SUR",
+   ["code"]="Si63500BG9",
+   ["ric_code"]="",
+   ["short_name"]="Si063500BG9",
+   ["buybackdate"]=0,
+   ["list_level"]=0,
+   ["qty_scale"]=0,
+   ["yieldatprevwaprice"]=0,
+   ["buy_leg_seccode"]="",
+   ["regnumber"]="",
+   ["min_price_step"]=1,
+   ["trade_currency"]="SUR",
+   ["second_curr_qty_scale"]=0,
+   ["first_curr_qty_scale"]=0,
+   ["base_active_seccode"]="SiU9",
+   ["sell_mat_date"]=0,
+   ["accruedint"]=0,
+   ["stock_name"]="",
+   ["buybackprice"]=0,
+   ["lot_size"]=1,
+   ["nextcoupon"]=0,
+   ["couponperiod"]=0,
+   ["scale"]=0,
+   ["sec_code"]="Si63500BG9",
+   ["class_name"]="FORTS: Опционы",
+   ["first_currcode"]="",
+},
+}
+
+quotes{
+-- Table: {1}
+{
+   ["bid_count"]="20.000000",
+   ["offer_count"]="20.000000",
+   ["bid"]={2},
+   ["offer"]={3},
+},
+-- Table: {2}
+{
+   {4},
+   {5},
+   {6},
+   {7},
+   {8},
+   {9},
+   {10},
+   {11},
+   {12},
+   {13},
+   {14},
+   {15},
+   {16},
+   {17},
+   {18},
+   {19},
+   {20},
+   {21},
+   {22},
+   {23},
+},
+-- Table: {3}
+{
+   {24},
+   {25},
+   {26},
+   {27},
+   {28},
+   {29},
+   {30},
+   {31},
+   {32},
+   {33},
+   {34},
+   {35},
+   {36},
+   {37},
+   {38},
+   {39},
+   {40},
+   {41},
+   {42},
+   {43},
+},
+-- Table: {4}
+{
+   ["price"]="60",
+   ["quantity"]="5",
+},
+-- Table: {5}
+{
+   ["price"]="61",
+   ["quantity"]="1",
+},
+-- Table: {6}
+{
+   ["price"]="64",
+   ["quantity"]="1",
+},
+-- Table: {7}
+{
+   ["price"]="67",
+   ["quantity"]="1",
+},
+-- Table: {8}
+{
+   ["price"]="68",
+   ["quantity"]="50",
+},
+-- Table: {9}
+{
+   ["price"]="69",
+   ["quantity"]="50",
+},
+-- Table: {10}
+{
+   ["price"]="70",
+   ["quantity"]="1",
+},
+-- Table: {11}
+{
+   ["price"]="71",
+   ["quantity"]="5",
+},
+-- Table: {12}
+{
+   ["price"]="72",
+   ["quantity"]="50",
+},
+-- Table: {13}
+{
+   ["price"]="73",
+   ["quantity"]="1",
+},
+-- Table: {14}
+{
+   ["price"]="74",
+   ["quantity"]="20",
+},
+-- Table: {15}
+{
+   ["price"]="76",
+   ["quantity"]="1",
+},
+-- Table: {16}
+{
+   ["price"]="79",
+   ["quantity"]="101",
+},
+-- Table: {17}
+{
+   ["price"]="80",
+   ["quantity"]="2",
+},
+-- Table: {18}
+{
+   ["price"]="82",
+   ["quantity"]="1",
+},
+-- Table: {19}
+{
+   ["price"]="85",
+   ["quantity"]="1",
+},
+-- Table: {20}
+{
+   ["price"]="88",
+   ["quantity"]="1",
+},
+-- Table: {21}
+{
+   ["price"]="90",
+   ["quantity"]="10",
+},
+-- Table: {22}
+{
+   ["price"]="91",
+   ["quantity"]="1",
+},
+-- Table: {23}
+{
+   ["price"]="93",
+   ["quantity"]="62",
+},
+-- Table: {24}
+{
+   ["price"]="98",
+   ["quantity"]="22",
+},
+-- Table: {25}
+{
+   ["price"]="102",
+   ["quantity"]="20",
+},
+-- Table: {26}
+{
+   ["price"]="103",
+   ["quantity"]="50",
+},
+-- Table: {27}
+{
+   ["price"]="104",
+   ["quantity"]="50",
+},
+-- Table: {28}
+{
+   ["price"]="107",
+   ["quantity"]="50",
+},
+-- Table: {29}
+{
+   ["price"]="114",
+   ["quantity"]="100",
+},
+-- Table: {30}
+{
+   ["price"]="119",
+   ["quantity"]="170",
+},
+-- Table: {31}
+{
+   ["price"]="123",
+   ["quantity"]="1",
+},
+-- Table: {32}
+{
+   ["price"]="131",
+   ["quantity"]="1",
+},
+-- Table: {33}
+{
+   ["price"]="143",
+   ["quantity"]="1",
+},
+-- Table: {34}
+{
+   ["price"]="146",
+   ["quantity"]="40",
+},
+-- Table: {35}
+{
+   ["price"]="150",
+   ["quantity"]="1",
+},
+-- Table: {36}
+{
+   ["price"]="158",
+   ["quantity"]="5",
+},
+-- Table: {37}
+{
+   ["price"]="163",
+   ["quantity"]="1",
+},
+-- Table: {38}
+{
+   ["price"]="169",
+   ["quantity"]="5",
+},
+-- Table: {39}
+{
+   ["price"]="170",
+   ["quantity"]="300",
+},
+-- Table: {40}
+{
+   ["price"]="190",
+   ["quantity"]="1",
+},
+-- Table: {41}
+{
+   ["price"]="200",
+   ["quantity"]="101",
+},
+-- Table: {42}
+{
+   ["price"]="210",
+   ["quantity"]="3",
+},
+-- Table: {43}
+{
+   ["price"]="230",
+   ["quantity"]="10",
+},
+}
