@@ -63,6 +63,7 @@ IvCall <- function (C, E, expiry, S, r, error) {
   sigma
 }
 
+# IV Put
 IvPut <- function (P, E, expiry, S, r, error) {
   sigma = 1
   dv = error + 1
@@ -105,4 +106,4 @@ vYZ <- volatility(ohlc, calc = "yang.zhang")
 
 abline(v=asset, col="blue")
 abline(h=vYZ[length(vYZ)], col="orange")
-abline(h=vClose[length(vClose)], col="orange3")
+abline(h=vClose[length(vClose)], col="black")

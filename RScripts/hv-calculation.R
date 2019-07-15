@@ -25,7 +25,7 @@ vYZ2 <- volatility(ohlc, calc = "yang.zhang", n = 30)
 #plot(xrange, yrange, type = "n", xlab = "Strike", ylab = "Volatility")
 #par(mfrow=c(2,1))
 
-plot(vClose, type = "lines")
+plot(vClose, type = "lines", xlab = "Day", ylab = "Volatility")
 #points(vGK, type = "lines", col = "yellow")
 #points(vP, type = "lines", col = "blue")
 #points(vRS, type = "lines", col = "orange")

@@ -71,4 +71,4 @@ points(callStrikes, callPrices, col = "forestgreen", type = "o")
 points(callStrikes, callPricesHV, col = "blue", type = "o")
 points(putStrikes, putPricesHV, col = "orange", type = "o")
 
-abline(v=asset, col="blue")
+abline(v=asset, col="black")
