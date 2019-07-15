@@ -1,4 +1,5 @@
--- (c) https://quikluacsharp.ru/
+-- (c) https://quikluacsharp.ru/author/konstantin/
+
 -- Вводим свои параметры
 Account    = "*******"    -- Торговый счет
 Class_Fut  = "SPBFUT"     -- Класс фьючерса
