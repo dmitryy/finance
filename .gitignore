@@ -1,2 +1,3 @@
 /RScripts/*.Rhistory
 /RScripts/*.RData
+.Rproj.user

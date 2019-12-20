@@ -38,7 +38,9 @@ vYZ <- volatility(ohlc, calc = "yang.zhang")
 hv = vYZ[length(vYZ)]
 
 callPricesHV = array(length(callStrikes))
+callPricesDiff = array(length(callStrikes))
 putPricesHV = array(length(putStrikes))
+putPricesDiff = array(length(putStrikes))
 
 for (i in 1:length(callStrikes))
 {
@@ -48,6 +50,7 @@ for (i in 1:length(callStrikes))
   d1 = D1(S, E, r, hv, expiry)
   d2 = D2(d1, hv, expiry)
   callPricesHV[i] = C(S, d1, d2, E, r, expiry)
+  callPricesDiff[i] = callPrices[i] - callPricesHV[i]
 }
 
 for (i in 1:length(putStrikes))
@@ -58,17 +61,18 @@ for (i in 1:length(putStrikes))
   d1 = D1(S, E, r, hv, expiry)
   d2 = D2(d1, hv, expiry)
   putPricesHV[i] = P(S, d1, d2, E, r, expiry)
+  putPricesDiff[i] = putPrices[i] - putPricesHV[i]
 }
 
 xrange = range(putStrikes, callStrikes)
-yrange = range(putPrices, callPrices)
+yrange = range(putPricesDiff, callPricesDiff)
 
 plot(xrange, yrange, type = "n", xlab = "Strike", ylab = "Price")
 
-points(putStrikes, putPrices, col = "red3", type = "o")
-points(callStrikes, callPrices, col = "forestgreen", type = "o")
+points(putStrikes, putPricesDiff, col = "red3", type = "o")
+points(callStrikes, callPricesDiff, col = "forestgreen", type = "o")
 
-points(callStrikes, callPricesHV, col = "blue", type = "o")
-points(putStrikes, putPricesHV, col = "orange", type = "o")
+#points(callStrikes, callPricesHV, col = "blue", type = "o")
+#points(putStrikes, putPricesHV, col = "orange", type = "o")
 
 abline(v=asset, col="black")

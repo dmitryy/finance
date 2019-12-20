@@ -1,6 +1,6 @@
 s0 = 100
 n = 100
-nc = 1000 # experiments count
+nc = 100 # experiments count
 
 rate = 0
 drift = 0.2

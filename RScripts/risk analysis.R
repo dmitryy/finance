@@ -9,7 +9,7 @@ library(kohonen)
 # Download CSV file and save on your local drive. Set working drive:
 #setwd("myDrive")
 
-s_data_file <- "Data-Tutorial.csv"                       # Name of CSV-file with data.
+s_data_file <- "C:/Work Home/finance/RScripts/Data-Tutorial.csv"                       # Name of CSV-file with data.
 no_units <- 25                                   # Set the number of units of the SOM.
 d_start_INS <- "1994-01-31"                          # Set start and ...
 d_end_INS <- "2017-12-31"                            # ... end date for in-sample period.
