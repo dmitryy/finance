@@ -1,3 +1,7 @@
 /RScripts/*.Rhistory
 /RScripts/*.RData
 .Rproj.user
+/Lua/.vscode/settings.json
+/Lua/debug.lua
+/Lua/debug.txt
+/Lua/options-log.txt
