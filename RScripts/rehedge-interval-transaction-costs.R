@@ -91,6 +91,19 @@ getMoexData <- function () {
   data
 }
 
+getTransactionCost <- function (amount) {
+  result = amount * 0.3 / 100
+  if (result < 1) result = 1
+  if (amount == 0) result = 0
+  abs(result)
+}
+
+getSigma <- function(sigma) {
+  dt = 1 / 365 / 24 * 100
+  k = 0.3 / 100
+  sigma * sqrt(1 + sqrt(8 / (pi * dt)) * k / sigma)
+}
+
 # T = 1 # one year
 # one year contains 252 business days
 
@@ -106,13 +119,14 @@ putPrices = c(1850,1721,1550,1654,1367,1470,1372,1430,1366,1372,1200,1376,1282,1
 count = 10
 error = 0.001
 rate = 0
+k = 0.03
 
 results = array(1000)
 
 #for (int in 1:1000) {
-interval = 1#int #240 # minutes
-n = round(length(asset) / interval) # number of trading hours
-
+  interval = 240 # int #240 # minutes
+  n = round(length(asset) / interval) # number of trading hours
+  
 #calls = array(n) 
 #puts = array(n)
 
@@ -123,6 +137,7 @@ portfolio = array(n)
 exps = array(n)
 putLosses = array(n)
 callLosses = array(n)
+transactions = array(n)
 
 ivCall = 0
 ivPut = 0
@@ -135,7 +150,11 @@ for (i in 1:(n-1)) {
   if (i == 1) {
     # create position on first day
     futures[i] = 0 # futures count
-    money[i] = count * callPrices[1] + count * putPrices[1] # build straddle, short 10 calls and 10 puts
+    
+    # build straddle, short 10 calls and 10 puts
+    money[i] = count * callPrices[1] + count * putPrices[1] - getTransactionCost(count * callPrices[1]) - getTransactionCost(count * putPrices[1])
+    transactions[i] = getTransactionCost(count * callPrices[1]) + getTransactionCost(count * putPrices[1])
+    
     portfolio[i] = 0
     
     # keep IV for future rehedge
@@ -157,7 +176,7 @@ for (i in 1:(n-1)) {
     deltas[i] = N(d1Call) * count - N(-d1Put) * count
     
     futures[i] = round(deltas[i]) # - futures[i - 1]
-
+    
     if (callStrikes[1] < assetPrice) {
       # loss on call
       callLosses[i] = (assetPrice - callStrikes[1]) * count
@@ -173,8 +192,10 @@ for (i in 1:(n-1)) {
       putLosses[i] = 0
     
     #if (abs(futures[i] - futures[i - 1]) > 1) {
-      money[i] = money[i - 1] - ((futures[i] - futures[i - 1]) * assetPrice) #- callLosses[i] - putLosses[i]
-      portfolio[i] = money[i] - callLosses[i] - putLosses[i] + futures[i] * assetPrice
+    money[i] = money[i - 1] - ((futures[i] - futures[i - 1]) * assetPrice) - getTransactionCost((futures[i] - futures[i - 1]) * asset[i]) # - callLosses[i] - putLosses[i]
+    portfolio[i] = money[i] - callLosses[i] - putLosses[i] + futures[i] * assetPrice - getTransactionCost(callLosses[i]) - getTransactionCost(putLosses[i]) - getTransactionCost(futures[i] * asset[i])
+    transactions[i] = getTransactionCost((futures[i] - futures[i - 1]) * assetPrice)
+    
     #}
     #else {
     #  money[i] = money[i - 1]
@@ -189,12 +210,12 @@ last = length(asset)
 
 if (callStrikes[1] < asset[last]) {
   # loss on call
-  callLoss = (asset[last] - callStrikes[1]) * count
+  callLoss = (asset[last] - callStrikes[1]) * count + getTransactionCost((asset[last] - callStrikes[1]) * count)
 }
 
 if (putStrikes[1] > asset[last]) {
   # loss on put
-  putLoss = (putStrikes[1] - asset[last]) * count
+  putLoss = (putStrikes[1] - asset[last]) * count + getTransactionCost((putStrikes[1] - asset[last]) * count)
 }
 
 money[n] = money[n - 1] + futures[n-1] * asset[last] - putLoss - callLoss
@@ -207,3 +228,5 @@ plot(portfolio, type = "l", xlab = "Номер хеджа", ylab = "Портфе
 
 #results[int] = portfolio[length(portfolio)]
 #}
+
+#plot(results, xlab = "Интервал рехеджа в минутах", ylab = "Прибыль")
