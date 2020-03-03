@@ -25,3 +25,5 @@ linear_model <- lm(log(volatility.var) ~ log(volatility))
 plot(volatility.log ~ log(volatility))
 
 abline(linear_model) 
+
+# https://www.econometrics-with-r.org/4-1-simple-linear-regression.html
